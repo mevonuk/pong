@@ -110,7 +110,6 @@
 		"defeat":"DEFEAT",
 		"Winner":"Winner",
 		"Loser":"Loser",
-		"forfait":"VICTORY BY FORFAIT",
 		"cons-error":"Failed to load user data:",
 
 		"online": "Online",
@@ -303,7 +302,6 @@
 		"defeat":"DEFAITE",
 		"Winner":"Gagnant",
 		"Loser":"Perdant",
-		"forfait":"VICTOIRE PAR FORFAIT",
 		"cons-error":"Echec de chargement des données utilisateur:",
 
 		"online": "Connecté",
@@ -486,7 +484,6 @@
 		"defeat": "敗北",
 		"Winner": "勝者",
 		"Loser": "敗者",
-		"forfait": "不戦勝",
 		"cons-error": "ユーザーデータの読み込みに失敗：",
 
 		"online": "オンライン",
@@ -679,7 +676,6 @@
 		"defeat":"FRACASO",
 		"Winner":"Ganador(a)",
 		"Loser":"Perdedor(a)",
-		"forfait":"VICTORIA POR FORFAIT",
 		"cons-error":"No se pudieron cargar los datos del usuario:",
 
 		"online": "En línea",

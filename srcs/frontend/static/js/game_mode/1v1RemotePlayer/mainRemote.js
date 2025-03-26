@@ -1,6 +1,5 @@
 import { WinnerRemoteGamePage } from '../../pages/WinnerRemoteGamePage.js';
 import { LoserRemoteGamePage } from '../../pages/LoserRemoteGamePage.js';
-import { ForfaitRemoteGamePage } from '../../pages/ForfaitRemoteGamePage.js';
 import { drawPaddle, ballStyle, drawGoalLine, drawDashedLine, displayScoreOne, displayScoreTwo, drawWalls, displayText} from './style.js';
 let canvas = null;
 let context = null;
@@ -184,9 +183,6 @@ class RemoteGameWebSocket {
 			case "game_result":
 				this.getResult(data);
 				break;
-			case "forfait":
-				this.winByForfait(data);
-				break;
 			case "error":
 				console.error("Server error:", data.message);
 				break;
@@ -250,14 +246,6 @@ class RemoteGameWebSocket {
 			const defeat = new LoserRemoteGamePage();
 			defeat.handle();
 		}
-	}
-
-	winByForfait(data) {
-		if (data.message.matchId != this.matchId)
-			return ;
-		stopGame();
-		const end = new ForfaitRemoteGamePage();
-		end.handle();
 	}
 
 	updateGame(data) {
