@@ -635,6 +635,7 @@ export class ProfilePage {
 		});
 	}
 
+	// show friends - problem does not update list after friend is removed when on popout friend list
 	async showFriendInfoModal(friendInfo) {
 		const modal = document.createElement('div');
 		modal.className = 'friend-info-modal';
@@ -928,6 +929,8 @@ export class ProfilePage {
 		});
 
 		// Setup friend card click events
+		// problem: new friends scores don't change, only data from user.json are non-zero
+		// however, profile images and names work
 		const friendCards = modal.querySelectorAll('.friend-card');
 		friendCards.forEach(card => {
 			card.addEventListener('click', () => {
