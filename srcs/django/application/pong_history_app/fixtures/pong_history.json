@@ -1,0 +1,80 @@
+[
+	{
+		"model": "pong_history_app.pongmatchhistory",
+		"pk": 1,
+		"fields": {
+			"user": 1,
+			"opponent": 2,
+			"user_score": 10,
+			"opponent_score": 9,
+			"played_at": "2024-01-01 12:00:00"
+		}
+	},
+	{
+		"model": "pong_history_app.pongmatchhistory",
+		"pk": 2,
+		"fields": {
+			"user": 1,
+			"opponent": 3,
+			"user_score": 11,
+			"opponent_score": 10,
+			"played_at": "2024-01-01 12:00:00"
+		}
+	},
+	{
+		"model": "pong_history_app.pongmatchhistory",
+		"pk": 3,
+		"fields": {
+			"user": 1,
+			"opponent": 4,
+			"user_score": 12,
+			"opponent_score": 11,
+			"played_at": "2024-01-01 12:00:00"
+		}
+	},
+	{
+		"model": "pong_history_app.pongmatchhistory",
+		"pk": 4,
+		"fields": {
+			"user": 2,
+			"opponent": 1,
+			"user_score": 9,
+			"opponent_score": 10,
+			"played_at": "2024-01-01 12:00:00"
+		}
+	},
+	{
+		"model": "pong_history_app.pongmatchhistory",
+		"pk": 5,
+		"fields": {
+			"user": 3,
+			"opponent": 1,
+			"user_score": 10,
+			"opponent_score": 11,
+			"played_at": "2024-01-01 12:00:00"
+		}
+	},
+	{
+		"model": "pong_history_app.pongmatchhistory",
+		"pk": 6,
+		"fields": {
+			"user": 4,
+			"opponent": 1,
+			"user_score": 11,
+			"opponent_score": 12,
+			"played_at": "2024-01-01 12:00:00"
+		}
+	},
+	{
+		"model": "pong_history_app.pongmatchhistory",
+		"pk": 7,
+		"fields": {
+			"user": 1,
+			"opponent": 2,
+			"user_score": 0,
+			"opponent_score": 10,
+			"played_at": "2024-01-01 12:00:00"
+		}
+	}
+]
+

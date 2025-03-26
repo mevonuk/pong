@@ -1,0 +1,38 @@
+[
+	{
+		"model": "online_status_app.onlinestatus",
+		"pk": 1,
+		"fields": {
+			"user": 1,
+			"is_online": false,
+			"last_seen": "2024-01-01 12:00:00"
+		}
+	},
+	{
+		"model": "online_status_app.onlinestatus",
+		"pk": 2,
+		"fields": {
+			"user": 2,
+			"is_online": false,
+			"last_seen": "2024-01-01 12:00:00"
+		}
+	},
+	{
+		"model": "online_status_app.onlinestatus",
+		"pk": 3,
+		"fields": {
+			"user": 3,
+			"is_online": false,
+			"last_seen": "2024-01-01 12:00:00"
+		}
+	},
+	{
+		"model": "online_status_app.onlinestatus",
+		"pk": 4,
+		"fields": {
+			"user": 4,
+			"is_online": false,
+			"last_seen": "2024-01-01 12:00:00"
+		}
+	}
+]
