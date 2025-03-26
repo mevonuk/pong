@@ -1,6 +1,5 @@
 let translationsData = {};
 
-
 async function loadTranslations(lang) {
     try {
         const response = await fetch(`/static/translations.json`);
@@ -79,7 +78,6 @@ async function updateTexts(lang) {
         window.router.currentPage.initializeCharts();
     }
 }
-
 
 //Appliquer la langue sauvegardée au chargement de la page
 document.addEventListener("DOMContentLoaded", async () => {

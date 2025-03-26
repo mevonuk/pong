@@ -118,7 +118,7 @@ export function displayScoreThree(context, scoreThree, canvas){
 	resetStyle(context);
 }
 
-export function displayPlayerName(context, canvas)
+export function displayText(context, canvas)
 {
 	const size = canvas.size * 1.2;
 	context.font = size + "px 'Press Start 2P'";

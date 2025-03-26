@@ -1,7 +1,7 @@
 import { EndNormalGamePage } from '../../pages/EndNormalGamePage.js';
-import { multiPaddle, ballStyle, drawDashedLine, displayScoreOne, displayScoreTwo, displayScoreThree, displayPlayerName, drawWalls } from './style_multi.js';
+import { multiPaddle, ballStyle, drawDashedLine, displayScoreOne, displayScoreTwo, displayScoreThree, displayText, drawWalls } from './style_multi.js';
 let canvas = null;
-let context = null;
+let context = null; 
 
 class GameWebSocket {
 	constructor() {
@@ -271,6 +271,7 @@ class GameWebSocket {
 
 	getInfoFromBackend(data)
 	{
+		// only load info needed to draw game
 		this.gameState = {
 			canvas: {
 				dim: data.canvas.dim,
@@ -280,35 +281,23 @@ class GameWebSocket {
 				size: data.canvas.size,
 			},
 			player1: {
-				name: data.playerOne.name,
 				color: data.playerOne.color,
 				startAngle: data.playerOne.startAngle,
 				endAngle:data.playerOne.endAngle,
-				deltaAngle: data.playerOne.deltaAngle,
-				startZone: data.playerOne.startZone,
-				endZone: data.playerOne.endZone,
 				width: data.playerOne.width,
 				score: data.playerOne.score,
 			},
 			player2: {
-				name: data.playerTwo.name,
 				color: data.playerTwo.color,
 				startAngle: data.playerTwo.startAngle,
 				endAngle:data.playerTwo.endAngle,
-				deltaAngle: data.playerTwo.deltaAngle,
-				startZone: data.playerTwo.startZone,
-				endZone: data.playerTwo.endZone,
 				width: data.playerTwo.width,
 				score: data.playerTwo.score,
 			},
 			player3: {
-				name: data.playerThree.name,
 				color: data.playerThree.color,
 				startAngle: data.playerThree.startAngle,
 				endAngle:data.playerThree.endAngle,
-				deltaAngle: data.playerThree.deltaAngle,
-				startZone: data.playerThree.startZone,
-				endZone: data.playerThree.endZone,
 				width: data.playerThree.width,
 				score: data.playerThree.score,
 			},
@@ -317,10 +306,6 @@ class GameWebSocket {
 				y: data.ball.y,
 				size: data.ball.size,
 				color: data.ball.color,
-				speed: data.ball.speed,
-				accel: data.ball.accel,
-				vx: data.ball.vx,
-				vy: data.ball.vy,
 			}
 		};
 	}
@@ -342,7 +327,7 @@ class GameWebSocket {
 		displayScoreTwo(context, scoreTwo,  this.gameState.canvas);
 		displayScoreThree(context, scoreThree,  this.gameState.canvas);
 
-		displayPlayerName(context,  this.gameState.canvas);
+		displayText(context, this.gameState.canvas);
 	}
 
 	cleanup() {

@@ -1,3 +1,5 @@
+// ensures that any special HTML characters in the input text are 
+// properly escaped to avoid cross-site scripting (XSS) vulnerabilities.
 export class SafeText {
 	constructor(text) {
 		this.text = text;

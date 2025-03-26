@@ -13,7 +13,7 @@ export class AiPage extends Page {
 		//clean();
 
 	startGame() {
-		this.game = aiMode("base");
+		this.game = aiMode();
 	}
 
 	clean() {

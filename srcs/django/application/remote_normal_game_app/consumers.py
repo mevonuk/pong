@@ -42,6 +42,7 @@ class PongConsumer(AsyncWebsocketConsumer):
 		self.infoPlayer['players'].append(obj)
 		await self.channel_layer.group_add(self.game_group_name, self.channel_name)
 		# if there are an even number of players, start games
+		# this should ideally only start games for the first even bit
 		if len(self.infoPlayer["players"]) % 2 == 0:
 			try:
 				await self.send(
@@ -131,6 +132,11 @@ class PongConsumer(AsyncWebsocketConsumer):
 				if m["playerOne"]["id"] == toRemove["player_id"] 
 				or m["playerTwo"]["id"] == toRemove["player_id"]), 
 			None)
+
+		# if disconnected player is not in a match, remove them from player_list
+		if not findMatch:
+			if toRemove in self.infoPlayer["players"]:
+				self.infoPlayer["players"].remove(toRemove)
 
 		#change the color of the player who has disconnected
 		if findMatch and findMatch["playerOne"]["id"] == toRemove["player_id"]:

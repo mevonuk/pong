@@ -6,13 +6,17 @@ export class RemoteNormalGamePage {
 	}
 
 	async handle() {
-		this.render();
+		try {
+			this.render();
+		}
+		catch (error) {
+			console.error("Error rendering the page:", error);
+		}
 	}
 
 	render() {
 		const authState = window.router.getAuthState();
 		const isLoggedIn = authState.isAuthenticated;
-		const username = authState.username;
 
 		if (isLoggedIn) {
 			this.container.innerHTML = `

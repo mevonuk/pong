@@ -65,7 +65,7 @@ class GameWebSocket {
 			this.sendMove("down", "p1")
 		}
 
-		// P 2 movement (Arrow keys)
+		// Player 2 movement (Arrow keys)
 		if (this.keys.ArrowUp && this.gameState.p2.y > 0) {
 			this.sendMove("up", "p2")
 		}
@@ -160,7 +160,6 @@ class GameWebSocket {
 		};
 		this.sendMessage(updates);
 	}
-
 
 	drawPause() {
 		this.pause = true;
@@ -288,13 +287,7 @@ class GameWebSocket {
 				size: data.ball.size,
 				color: data.ball.color,
 				speed: data.ball.speed,
-				accel: data.ball.accel,
-				vx: data.ball.vx,
-				vy: data.ball.vy
 			},
-			score: {
-				scoreMax: data.scoreMax
-			}
 		}
 	}
 

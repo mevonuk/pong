@@ -101,19 +101,23 @@ class RemoteGameWebSocket {
 	startGameLoop() {
 		if (this.gameLoopInterval) return;
 
-		this.loadingText.remove();
-		this.backButton.remove();
+		// maintain waiting page if there is no gameState
+		// that is, if there is no one to play against
+		if (this.gameState) {
+			this.loadingText.remove();
+			this.backButton.remove();
 
-		this.gameLoopInterval = setInterval(() => {
-			this.updatePlayerPositions();
+			this.gameLoopInterval = setInterval(() => {
+				this.updatePlayerPositions();
 
-			this.drawGame();
+				this.drawGame();
 
-			this.frameCount++;
-			if (this.frameCount >= (60 / this.sendRate)) {
-				this.frameCount = 0;
-			}
-		}, 1000 / 60);
+				this.frameCount++;
+				if (this.frameCount >= (60 / this.sendRate)) {
+					this.frameCount = 0;
+				}
+			}, 1000 / 60);
+		}
 	}
 
 	stopGameLoop() {

@@ -1,7 +1,7 @@
 //----------------------------COLOR/STYLE--------------------------------//
 
 //raquette playerOne
-export function firstPaddleSolo(contextSolo, elementSolo)
+export function drawPaddleSolo(contextSolo, elementSolo)
 {
 	contextSolo.fillStyle = "black";
 	contextSolo.shadowColor = "rgba(52, 152, 219, 0.7)";

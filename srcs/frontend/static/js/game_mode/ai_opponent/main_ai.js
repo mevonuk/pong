@@ -2,7 +2,6 @@ import { EndNormalGamePage } from '../../pages/EndNormalGamePage.js';
 import { displayText, drawPaddle, ballStyle, drawDashedLine, drawGoalLine, displayScoreOne, displayScoreTwo, drawWalls } from './style_ai.js';
 let canvas = null;
 let context = null;
-let theme = "base";
 
 class GameAISocket {
 	constructor() {
@@ -367,9 +366,6 @@ class GameAISocket {
 				vx: data.ball.vx,
 				vy: data.ball.vy
 			},
-			score: {
-				scoreMax: data.scoreMax
-			}
 		}
 	}
 
@@ -398,9 +394,8 @@ class GameAISocket {
 
 let gameSocket = null;
 
-export function aiMode(themeReceived) {
+export function aiMode() {
 	if (!gameSocket) {
-		theme = themeReceived;
 		gameSocket = new GameAISocket();
 	}
 	if (gameSocket)
