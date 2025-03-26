@@ -3,9 +3,6 @@ services:
     container_name: django
     image: django:1
     build: ./srcs/django/
-    depends_on:
-      postgresql:
-        condition: service_healthy
     volumes:
       - django_volume:/project
       - frontend_volume:/var/www/html
@@ -13,23 +10,6 @@ services:
       - .env
     networks:
       - transcendence
-
-  postgresql:
-    container_name: postgresql
-    image: postgresql:1
-    build: ./srcs/postgresql/
-    volumes:
-      - postgresql_volume:/var/lib/postgresql/data
-    env_file:
-      - .env
-    networks:
-      - transcendence
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
 
   nginx:
     container_name: nginx
@@ -65,13 +45,6 @@ volumes:
     driver_opts:
       type : none
       device: /home/user/ecole42/transcendence/data/django_volume
-      o : bind
-  postgresql_volume:
-    name: postgresql_volume
-    driver: local
-    driver_opts:
-      type : none
-      device: /home/user/ecole42/transcendence/data/postgresql_volume
       o : bind
 
   frontend_volume:

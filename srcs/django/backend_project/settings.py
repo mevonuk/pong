@@ -47,7 +47,6 @@ INSTALLED_APPS = [
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
 	'channels',
-	# 'corsheaders',
 	'user_management_app',
 	'local_multi_game_app',
 	'local_normal_game_app',
@@ -59,10 +58,7 @@ INSTALLED_APPS = [
 ]
 # SO: ajout de LocaleMiddleware pour la langue
 MIDDLEWARE = [
-	# 'corsheaders.middleware.CorsMiddleware',
 	'django.middleware.security.SecurityMiddleware',
-	# 'django.middleware.locale.LocaleMiddleware',
-	# 'django.contrib.sessions.middleware.SessionMiddleware',
 	'user_management_app.middleware.CustomSessionMiddleware',
 	'django.middleware.common.CommonMiddleware',
 	'django.middleware.csrf.CsrfViewMiddleware',
@@ -117,17 +113,15 @@ ASGI_APPLICATION = "backend_project.asgi.application"
 
 DATABASES = {
 	'default': {
-		# 'ENGINE': 'django.db.backends.sqlite3',
-		'ENGINE': 'django.db.backends.postgresql',
+		'ENGINE': 'django.db.backends.sqlite3',
 		# "OPTIONS": {
 		#     "service": "my_service",
 		#     "passfile": ".my_pgpass",
 		# },
-		'NAME': os.getenv('POSTGRES_DB'),
-		'USER': os.getenv('POSTGRES_USER'),
-		'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-		'HOST': os.getenv('POSTGRES_HOST'),
-		'PORT': os.getenv('POSTGRES_PORT'),
+		'NAME': os.getenv('SQL_DB'),
+		'USER': os.getenv('SQL_USER'),
+		'PASSWORD': os.getenv('SQL_PASSWORD'),
+		'PORT': os.getenv('SQL_PORT'),
 	}
 }
 

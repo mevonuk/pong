@@ -3,6 +3,7 @@ from django.conf import settings
 from . import views
 from django.conf.urls.static import static
 
+# Each path() function maps a URL to a specific view function
 urlpatterns = [
 	path('register', views.register_user),
 	path('send_email_verification', views.send_email_verification, name='send_email_verification'),

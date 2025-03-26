@@ -1,3 +1,5 @@
+# defines a custom middleware to handle JWT authentication
+# for WebSocket connections in Django Channels
 from channels.middleware import BaseMiddleware
 from channels.auth import AuthMiddlewareStack
 from django.contrib.auth.models import AnonymousUser
@@ -14,6 +16,7 @@ class JWTAuthMiddleware(BaseMiddleware):
 	async def __call__(self, scope, receive, send):
 		close_old_connections()
 
+		# Decoding the Session Cookie
 		headers = dict(scope.get('headers', []))
 		cookie_header = headers.get(b'cookie', b'').decode()
 		cookies = {}
@@ -26,6 +29,7 @@ class JWTAuthMiddleware(BaseMiddleware):
 		session_cookie = cookies.get(settings.SESSION_COOKIE_NAME)
 
 		try:
+			# WT Token Decoding and Session Key Extraction
 			if session_cookie:
 				jwt_data = jwt.decode(
 					session_cookie,
@@ -34,6 +38,7 @@ class JWTAuthMiddleware(BaseMiddleware):
 				)
 				session_key = jwt_data.get('session_key')
 
+				# Retrieving User from Session
 				@database_sync_to_async
 				def get_user_from_session():
 					session_store = SessionStore(session_key)
@@ -43,6 +48,7 @@ class JWTAuthMiddleware(BaseMiddleware):
 						return User.objects.get(id=user_id)
 					return None
 
+				# Assigning User to Scope
 				user = await get_user_from_session()
 				if user:
 					scope['user'] = user
@@ -50,6 +56,7 @@ class JWTAuthMiddleware(BaseMiddleware):
 					scope['user'] = AnonymousUser()
 			else:
 				scope['user'] = AnonymousUser()
+		# Error Handling and Logging
 		except Exception as e:
 			logger.error(f"Auth error: {str(e)}")
 			scope['user'] = AnonymousUser()

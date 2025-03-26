@@ -19,8 +19,11 @@ from django.core.validators import validate_email
 
 logger = logging.getLogger(__name__)
 
+# decorator to ensure a user is authenticated before they can
+# access a specific view
 def require_login(view_func):
 	def wrapper(request, *args, **kwargs):
+		# authentication check
 		if not request.user.is_authenticated:
 			return JsonResponse({
 				'status': _('error'),
@@ -31,7 +34,7 @@ def require_login(view_func):
 	return wrapper
 
 def login_user(request):
-	# Declare variables at the top
+	# Parse the Incoming Request Data
 	data		= json.load(request)
 	email		= data.get('email')
 	password	= data.get('password')
@@ -43,6 +46,7 @@ def login_user(request):
 			'message': 'Email and password are required'
 		}, status=400)
 
+	# Check if User Exists and Validate Password
 	user = CustomUser.objects.filter(email=email).first()
 
 	# First check password
@@ -68,6 +72,7 @@ def login_user(request):
 		request.session['pending_login_id'] = user.id
 		request.session['2fa_required'] = True
 
+		# Return response
 		return JsonResponse({
 			'status': 'success',
 			'message': '2FA verification required',
@@ -75,13 +80,16 @@ def login_user(request):
 			'email': email
 		}, status=200)
 
+	# Failure Case: Invalid Email or Password
 	return JsonResponse({
 		'status': 'error',
 		'message': 'Invalid email or password'
 	}, status=401)
 
+# only authenticated users can access the logout_user view
 @require_login
 def logout_user(request):
+	# Handle POST Request
 	if request.method == 'POST':
 		logout(request)
 		return JsonResponse({
@@ -94,8 +102,10 @@ def logout_user(request):
 			'message': 'invalid request method'
 		}, status=405)
 
+# users can delete their account only if they are authenticated
 @require_login
 def delete_account(request):
+	# Check for Valid Request Method
 	if request.method != 'POST':
 		return JsonResponse({
 			'status': 'error',
@@ -103,6 +113,7 @@ def delete_account(request):
 		}, status=405)
 
 	try:
+		# Delete the User Account
 		user = request.user
 		user.delete()
 		return JsonResponse({
@@ -115,13 +126,17 @@ def delete_account(request):
 			'message': str(e)
 		}, status=500)
 
+# retrieves and returns a CSRF token for the client
 def get_csrf_token(request):
+	# CSRF Token Generation
 	csrf_token = get_token(request)
+	# Return CSRF Token in JSON Response
 	return JsonResponse({
 		'status': 'success',
 		'csrf_token': csrf_token
 	}, status=200)
 
+# username must be non-empty, be between 1 and 20 char, not contain special chars
 def validate_username(username):
 	"""Validate username requirements"""
 	if not username:
@@ -133,6 +148,7 @@ def validate_username(username):
 	if re.search(r'[!@#$%^&*()_+\-=\[\]{};:"\|,.<>/?]', username):
 		raise ValidationError('Username cannot contain special characters')
 
+# validates username, email, and password
 def validate_user_input(username=None, email=None, password=None):
 	"""Validate user input fields"""
 	errors = []
@@ -158,7 +174,11 @@ def validate_user_input(username=None, email=None, password=None):
 
 	return errors
 
+# validates input,
+# checks if the user already exists,
+# and creates a new user in the database
 def register_user(request):
+	# Parsing Request Data
 	data = json.load(request)
 	username = data.get('username')
 	email = data.get('email')
@@ -179,6 +199,7 @@ def register_user(request):
 			'message': 'Email already registered'
 		}, status=409)
 
+	# Create New User
 	is_active = False
 	user = CustomUser.objects.create_user(
 		username=username,
@@ -190,12 +211,13 @@ def register_user(request):
 	# store user id in session
 	request.session['temp_user_id'] = user.id
 
+	# Send Verification
 	return JsonResponse({
 		'status': 'success',
 		'message': 'Verification email sent'
 	}, status=200)
 
-# this func is executed when a new user is created
+# executed when a new user is created
 @receiver(post_save, sender=CustomUser)
 def send_email_verification(sender, instance, created, **kwargs):
 	if created and not instance.is_active:
@@ -216,6 +238,9 @@ def send_email_verification(sender, instance, created, **kwargs):
 
 		send_mail(subject, message, from_email, recipient_list)
 
+# checks if the user exists and is inactive,
+# deletes the previous verification code (if any),
+# generates a new one, and sends it via email
 def resend_verification(request):
 	if request.method != 'POST':
 		return JsonResponse({
@@ -227,6 +252,7 @@ def resend_verification(request):
 	email = data.get('email')
 
 	try:
+		# fetch user
 		user = CustomUser.objects.get(email=email, is_active=False)
 
 		# Delete existing verification
@@ -260,6 +286,8 @@ def resend_verification(request):
 			'message': 'User not found or already activated'
 		}, status=404)
 
+# email verification process for new user registration
+# and two-factor authentication (2FA) login flow
 def verify_email(request):
 	if request.method != 'POST':
 		return JsonResponse({
@@ -268,10 +296,12 @@ def verify_email(request):
 		}, status=405)
 
 	try:
+		# Parsing Request Data
 		data = json.load(request)
 		email = data.get('email')
 		verification_code = data.get('code')
 
+		# Finding User and Verification Record
 		user = CustomUser.objects.get(email=email)
 		verification = EmailVerification.objects.get(
 			user=user,
@@ -332,6 +362,9 @@ def verify_email(request):
 			'message': _('An error occurred during verification')
 		}, status=500)
 
+# checks if the request method is POST, validates the input,
+# processes the uploaded image (if provided),
+# and updates the user's profile data
 @require_login
 def update_profile(request):
 	if request.method != 'POST':
@@ -341,6 +374,7 @@ def update_profile(request):
 		}, status=405)
 
 	try:
+		# Get Data from Request
 		username = request.POST.get('username')
 		uploaded_image = request.FILES.get('image')
 
@@ -391,10 +425,13 @@ def update_profile(request):
 			'message': str("failed update")
 		}, status=200)
 
+# retrieve the profile details of a logged-in user,
+# including their match history, friends, and relevant statistics
 @require_login
 def get_profile(request):
 	user = request.user
 
+	# Match History
 	match_response = pong_history_app.get_user_matches(request)
 	if (match_response.status_code != 200):
 		logger.error("match_response failed")
@@ -405,6 +442,7 @@ def get_profile(request):
 	else:
 		match_data = json.loads(match_response.content)['data']
 
+	# friend data
 	friends_data = [
 		{
 			'id': friend.id,
@@ -419,6 +457,7 @@ def get_profile(request):
 		for friend in user.friends.all()
 	]
 
+	# Profile Data Response
 	return JsonResponse({
 		'status': 'success',
 		'data': {
@@ -436,6 +475,8 @@ def get_profile(request):
 		}
 	})
 
+# hecks if current user is authenticated
+# returns a JSON response with the user's authentication status and username
 def get_user(request):
 	if request.user.is_authenticated:
 		return JsonResponse({
@@ -453,9 +494,12 @@ def get_user(request):
 			}
 		})
 
+# search for users based on a search term,
+# validate and return relevant data for each user
 @require_login
 def search_user(request):
 	try:
+		# Get search term from the request body
 		data = json.loads(request.body)
 		search_term = data.get('search_term', '')
 
@@ -468,18 +512,21 @@ def search_user(request):
 				'message': e.messages
 			}, status=400)
 
+		# If no search term, return empty list
 		if not search_term:
 			return JsonResponse({
 				'status': 'success',
 				'data': []
 			})
 
+		# Search users by username
 		users = CustomUser.objects.filter(
-			username__icontains=search_term
+			username__icontains=search_term # Case-insensitive search
 		).exclude(
-			username=request.user.username
+			username=request.user.username # Exclude current user
 		)
 
+		# Prepare user data to return
 		users_data = [
 			{
 				'id' : user.id,
@@ -491,11 +538,13 @@ def search_user(request):
 			for user in users
 		]
 
+		# Return search results
 		return JsonResponse({
 			'status': 'success',
 			'data': users_data
 		})
 
+	# Handle errors
 	except json.JSONDecodeError:
 		return JsonResponse({
 			'status': 'error',
@@ -507,16 +556,24 @@ def search_user(request):
 			'message': str(e)
 		}, status=500)
 
+# add friend to currently authenticated user
 @require_login
 def add_friend(request):
 	try:
+		# Parse the incoming JSON request body
 		data = json.loads(request.body)
 		friend_id = data.get('friend_id')
 
+		# Retrieve the friend by their ID from the database
 		friend = CustomUser.objects.get(id=friend_id)
+
+		# Add friend to current user's friend list
 		request.user.friends.add(friend)
+
+		# Save changes to current user's friend list
 		request.user.save()
 
+		# Return success response
 		return JsonResponse({
 			'status': 'success',
 			'message': 'friend added'
@@ -532,20 +589,28 @@ def add_friend(request):
 			'message': str(e)
 		}, status=500)
 
+# remove friend from the authenticated user's friend list
 @require_login
 def remove_friend(request):
 	try:
+		# Parse incoming JSON request body
 		data = json.loads(request.body)
+		# Get user ID of friend to be removed
 		friend_id = data.get('userid')
 
+		# Retrieve the friend by their ID
 		friend = CustomUser.objects.get(id=friend_id)
+		# Remove friend
 		request.user.friends.remove(friend)
+		# save changes
 		request.user.save()
 
+		# Return success
 		return JsonResponse({
 			'status': 'success',
 			'message': 'friend removed'
 		}, status=200)
+	# handle errors
 	except CustomUser.DoesNotExist:
 		return JsonResponse({
 			'status': 'error',

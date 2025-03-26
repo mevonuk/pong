@@ -23,5 +23,3 @@ urlpatterns = [
 	path("api/matches/", include("pong_history_app.urls")),
 ]
 
-# api/ -> api/auth/
-# backend_app/ -> api/pong/

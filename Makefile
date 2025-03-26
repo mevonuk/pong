@@ -9,11 +9,9 @@ network:
 
 creat_v:
 	@echo 'making directories'
-	@sudo mkdir -p /home/user/ecole42/transcendence/data/postgresql_volume
 	@sudo mkdir -p /home/user/ecole42/transcendence/data/django_volume
 	@sudo mkdir -p /home/user/ecole42/transcendence/data/frontend_volume
 	@sudo chown -R $(USER) /home/user/ecole42/transcendence/data
-	@sudo chmod -R 777 /home/user/ecole42/transcendence/data/postgresql_volume
 	@sudo chmod -R 755 /home/user/ecole42/transcendence/data/django_volume
 	@sudo chmod -R 755 /home/user/ecole42/transcendence/data/frontend_volume
 
@@ -61,7 +59,6 @@ login:
 
 clean: destroy
 	@echo 'removing volumes'
-	@sudo rm -rf /home/user/ecole42/transcendence/data/postgresql_volume
 	@sudo rm -rf /home/user/ecole42/transcendence/data/django_volume
 	@sudo rm -rf /home/user/ecole42/transcendence/data/frontend_volume
 
@@ -80,6 +77,6 @@ help:
 	@echo    "logs   : Displays log output from services."
 	@echo    "ps     : Lists containers for a Compose project, with current status and exposed ports."
 	@echo    "login  : This is the equivalent of docker exec targeting a Compose service."
-	@echo    "prune	 : erase unused docker stuff(container, image, etc) to clear memory"
+	@echo    "prune	 : erase unused docker stuff (container, image, etc) to clear memory"
 
 .PHONY: prune help build up start down destroy stop restart logs logs-api ps login-timescale login-api db-shell
