@@ -2,11 +2,11 @@
 
 This project is based on the Ecole 42 project ft_transcendence. Contributors are S. Ouelghabet, M. Mahfoud, Y. Kawakita, and M. Evonuk.
 
-The goal of the project is to offer a nice user interface with real-time multiplayer capabilities allowing users to play the classic game of Pong. The backend was constructed using Django, the frontend, javascript. The game was optimized for Google Chrome, and Docker is used to run the website.
+The goal of the project is to offer a nice user interface with real-time multiplayer capabilities allowing users to play the classic game of Pong. The backend was constructed using Django, the frontend, JavaScript. The game was optimized for Google Chrome, and Docker is used to construct the containers and volumes and run the website. We use PostgreSQL for the backend database and NGINX as the web server.
 
 Basic functionalities are the following:
 
-Players can participate in a live Pong game agaisnt another player directly on the website using the same keyboard.
+Players can participate in a live Pong game against another player directly on the website using the same keyboard.
 
 A tournament system is available for 3 - 8 players playing locally.
 

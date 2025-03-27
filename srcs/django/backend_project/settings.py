@@ -113,15 +113,17 @@ ASGI_APPLICATION = "backend_project.asgi.application"
 
 DATABASES = {
 	'default': {
-		'ENGINE': 'django.db.backends.sqlite3',
+		# 'ENGINE': 'django.db.backends.sqlite3',
+		'ENGINE': 'django.db.backends.postgresql',
 		# "OPTIONS": {
 		#     "service": "my_service",
 		#     "passfile": ".my_pgpass",
 		# },
-		'NAME': os.getenv('SQL_DB'),
-		'USER': os.getenv('SQL_USER'),
-		'PASSWORD': os.getenv('SQL_PASSWORD'),
-		'PORT': os.getenv('SQL_PORT'),
+		'NAME': os.getenv('POSTGRES_DB'),
+		'USER': os.getenv('POSTGRES_USER'),
+		'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+		'HOST': os.getenv('POSTGRES_HOST'),
+		'PORT': os.getenv('POSTGRES_PORT'),
 	}
 }
 

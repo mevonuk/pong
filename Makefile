@@ -11,9 +11,11 @@ creat_v:
 	@echo 'making directories'
 	@sudo mkdir -p /home/user/ecole42/data/django_volume
 	@sudo mkdir -p /home/user/ecole42/data/frontend_volume
+	@sudo mkdir -p /home/user/ecole42/data/postgresql_volume
 	@sudo chown -R $(USER) /home/user/ecole42/data
 	@sudo chmod -R 755 /home/user/ecole42/data/django_volume
 	@sudo chmod -R 755 /home/user/ecole42/data/frontend_volume
+	@sudo chmod -R 777 /home/user/ecole42/data/postgresql_volume
 
 build:
 	@echo 'building'
@@ -59,6 +61,7 @@ login:
 
 clean: destroy
 	@echo 'removing volumes'
+	@sudo rm -rf /home/user/ecole42/data/postgresql_volume
 	@sudo rm -rf /home/user/ecole42/data/django_volume
 	@sudo rm -rf /home/user/ecole42/data/frontend_volume
 

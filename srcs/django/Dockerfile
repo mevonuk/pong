@@ -43,6 +43,8 @@ RUN cd /project && python3.11 manage.py startapp local_multi_game_app \
 # Expose port 8000 for the Django development server
 EXPOSE 8000
 
+RUN apt update && apt install -y postgresql-client
+
 # Install Additional Python Packages
 RUN pip install psycopg[binary] channels[daphne] Pillow pyjwt django-channels-jwt-auth-middleware
 
