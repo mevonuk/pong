@@ -442,7 +442,12 @@ def get_profile(request):
 	else:
 		match_data = json.loads(match_response.content)['data']
 
-	# friend data
+	# this is included to sync up the admin who has wins and losses hard wired in
+	user.totalGames = match_data['total_games']
+	user.wins = match_data['wins']
+	user.losses = match_data['losses']
+	user.save()
+	
 	friends_data = [
 		{
 			'id': friend.id,
@@ -464,9 +469,9 @@ def get_profile(request):
 			'username': user.username,
 			'email': user.email,
 			'join_date': user.date_joined,
-			'total_games': match_data['total_games'],
-			'wins': match_data['wins'],
-			'losses': match_data['losses'],
+			'total_games': user.totalGames,
+			'wins': user.wins,
+			'losses': user.losses,
 			'win_percent': match_data['win_percent'],
 			'image_path': user.profile_image.url if user.profile_image else None,
 			'friends': friends_data,
@@ -475,7 +480,7 @@ def get_profile(request):
 		}
 	})
 
-# hecks if current user is authenticated
+# checks if current user is authenticated
 # returns a JSON response with the user's authentication status and username
 def get_user(request):
 	if request.user.is_authenticated:

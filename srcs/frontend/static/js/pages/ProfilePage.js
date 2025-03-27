@@ -8,6 +8,8 @@ export class ProfilePage {
 		this.userData = {};
 		this.matchHistory = [];
 		this.friends = [];
+
+		this.modalInstance = null;
 	}
 
 	async handle() {
@@ -548,7 +550,6 @@ export class ProfilePage {
 				}
 
 				const result = await response.json();
-
 				if (result.status === 'success' && Array.isArray(result.data)) {
 					if (result.data.length === 0) {
 						resultsContainer.innerHTML = `<p class="no-results" data-translate="noSearchResults"></p>`;
@@ -766,6 +767,13 @@ export class ProfilePage {
 					parentModal.remove();
 					await this.loadUserData();
 					this.render();
+					// execute if the show all friends modal is open
+					if (this.modalInstance) {
+						// remove old show all friends modal
+						this.closeModal();
+						// draw a new one that is updated
+						this.showAllFriendsModal();
+					}
 					const savedLang = localStorage.getItem("selectedLang") || "en";
 					await updateTexts(savedLang);
 				}
@@ -882,6 +890,16 @@ export class ProfilePage {
 		this.setupAllFriendsModalListeners(modal);
 		const savedLang = localStorage.getItem("selectedLang") || "en";
 		await updateTexts(savedLang);
+
+		// Store the modal reference so we can access it later
+		this.modalInstance = modal;
+	}
+
+	closeModal() {
+		if (this.modalInstance) {
+			this.modalInstance.remove();  // Removes the modal from the DOM
+			this.modalInstance = null;  // Optional: clear the reference after closing
+		}
 	}
 
 	renderAllFriends() {
@@ -925,6 +943,7 @@ export class ProfilePage {
 			btn.addEventListener('click', () => {
 				modal.classList.add('fade-out');
 				setTimeout(() => modal.remove(), 300);
+				this.modalInstance = null;
 			});
 		});
 

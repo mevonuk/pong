@@ -384,6 +384,22 @@ class PongConsumer(AsyncWebsocketConsumer):
 				opponent_score=user_score
 			)
 
+			 # Update the user's wins and losses
+			if user_score > opponent_score:
+				user.wins += 1
+				opponent.losses += 1
+			elif opponent_score > user_score:
+				user.losses += 1
+				opponent.wins += 1
+			
+			user.totalGames += 1
+			opponent.totalGames += 1
+
+			# Save the updated user and opponent stats
+			user.save()
+			opponent.save()
+
+
 		try:
 			await save_match_history()
 		except Exception as e:
