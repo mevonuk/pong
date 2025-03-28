@@ -1,25 +1,75 @@
-# pong
+# Pong Game Project
 
-This project is based on the Ecole 42 project ft_transcendence. Contributors are S. Ouelghabet, M. Mahfoud, Y. Kawakita, and M. Evonuk.
+## Overview
+This project is a Pong game based on the Ecole 42 ft_transcendence project.
 
-The goal of the project is to offer a nice user interface with real-time multiplayer capabilities allowing users to play the classic game of Pong. The backend was constructed using Django, the frontend, JavaScript. The game was optimized for Google Chrome, and Docker is used to construct the containers and volumes and run the website. We use PostgreSQL for the backend database and NGINX as the web server.
+### Contributors
+- S. Ouelghabet (https://github.com/souelgha)
+- M. Mahfoud (https://github.com/Thebelovedcookie)
+- Y. Kawakita (https://github.com/yuuuuki15)
+- M. Evonuk (https://github.com/mevonuk)
 
-Basic functionalities are the following:
+## Tech Stack
+- Backend: Django
+- Frontend: JavaScript
+- Database: PostgreSQL
+- Web Server: NGINX
+- Containerization: Docker
+- Recommended Browser: Google Chrome
 
-Players can participate in a live Pong game against another player directly on the website using the same keyboard.
+## Main Features
 
-A tournament system is available for 3 - 8 players playing locally.
+### Game Modes
+1. **Classic 2-Player Mode**
+   - Two players using the same keyboard
+   - Real-time multiplayer support
 
-A registration system is available for players to play remote games, to track their statistics on a user dashboard, and to add/delete friends. Users can securely subscribe to the site. Users can update their username and profile image. A match history is provided for registered matches (two registered players playing each other in battle mode). Users can login, logout, and delete their accounts.
+2. **Tournament Mode**
+   - Local multiplayer for 3-8 players
+   - Tournament-style battle system
 
-An AI player is available to play against single players. The AI can only refresh its view once per second. While the AI plays strategically, it is not perfect allowing the human user to have a chance.
+3. **AI Mode**
+   - Single player against AI
+   - AI view updates once per second
+   - Strategic but imperfect AI for balanced gameplay
 
-A multiplyer option is available for 3 players to play a version of pong in a circular arena with each player guarding one third of the arena circumferance.
+4. **Multiplayer Arena Mode**
+   - Circular arena for 3 players
+   - Each player guards one-third of the arena circumference
 
-Play becomes progressively more difficult with time as the ball speed increases with each successful return.
+### User Features
+- Account registration, login, and deletion
+- Username and profile image updates
+- Friend management (add/remove)
+- Match history tracking and display
+- User dashboard with statistics
 
-Security: Passwords are hashed, and the website is protected against SQL injections. Two-Factor AUuthentication and JWT are used as an added layer of security.
+### Security Features
+- Password hashing
+- SQL injection protection
+- Two-Factor Authentication (2FA)
+- JWT-based authentication
 
-The backend is designed as microservices. Individual microservices include the different game modes (solo, multi, classic 2-player, remote 2-player, and AI), user management, online status, and match history.
+### Multilingual Support
+- Supported Languages:
+  - English
+  - French
+  - Spanish
+  - Japanese
+- Language switching available during gameplay
 
-Multiple language support is provided for French, English, Spanish, and Japanese. Users can easily switch between langues at any time, even during game play.
+## Game Characteristics
+- Progressive difficulty with increasing ball speed
+- Microservices Architecture:
+  - Various game modes
+  - User management
+  - Online status tracking
+  - Match history
+
+## Installation and Setup
+1. Clone the repository
+2. Set up required environment variables
+3. Build and run Docker containers
+```bash
+make all
+```
