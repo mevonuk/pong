@@ -30,7 +30,7 @@ services:
       timeout: 5s
       retries: 5
       start_period: 10s
-    
+
   nginx:
     container_name: nginx
     image: nginx:1
@@ -64,7 +64,7 @@ volumes:
     driver: local
     driver_opts:
       type : none
-      device: /home/user/ecole42/data/django_volume
+      device: ${PROJECT_ROOT}/data/django_volume
       o : bind
 
   postgresql_volume:
@@ -72,7 +72,7 @@ volumes:
     driver: local
     driver_opts:
       type : none
-      device: /home/user/ecole42/data/postgresql_volume
+      device: ${PROJECT_ROOT}/data/postgresql_volume
       o : bind
 
   frontend_volume:
@@ -80,7 +80,7 @@ volumes:
     driver: local
     driver_opts:
       type : none
-      device: /home/user/ecole42/data/frontend_volume
+      device: ${PROJECT_ROOT}/data/frontend_volume
       o : bind
 
 networks:

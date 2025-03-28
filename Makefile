@@ -1,6 +1,7 @@
 DC = docker-compose.yml
+export PROJECT_ROOT := $(CURDIR)
 
-all: clean creat_v build up 
+all: clean creat_v build up
 	make logs c=django
 
 network:
@@ -9,13 +10,13 @@ network:
 
 creat_v:
 	@echo 'making directories'
-	@sudo mkdir -p /home/user/ecole42/data/django_volume
-	@sudo mkdir -p /home/user/ecole42/data/frontend_volume
-	@sudo mkdir -p /home/user/ecole42/data/postgresql_volume
-	@sudo chown -R $(USER) /home/user/ecole42/data
-	@sudo chmod -R 755 /home/user/ecole42/data/django_volume
-	@sudo chmod -R 755 /home/user/ecole42/data/frontend_volume
-	@sudo chmod -R 777 /home/user/ecole42/data/postgresql_volume
+	@sudo mkdir -p $(CURDIR)/data/django_volume
+	@sudo mkdir -p $(CURDIR)/data/frontend_volume
+	@sudo mkdir -p $(CURDIR)/data/postgresql_volume
+	@sudo chown -R $(USER) $(CURDIR)/data
+	@sudo chmod -R 755 $(CURDIR)/data/django_volume
+	@sudo chmod -R 755 $(CURDIR)/data/frontend_volume
+	@sudo chmod -R 777 $(CURDIR)/data/postgresql_volume
 
 build:
 	@echo 'building'
@@ -61,9 +62,9 @@ login:
 
 clean: destroy
 	@echo 'removing volumes'
-	@sudo rm -rf /home/user/ecole42/data/postgresql_volume
-	@sudo rm -rf /home/user/ecole42/data/django_volume
-	@sudo rm -rf /home/user/ecole42/data/frontend_volume
+	@sudo rm -rf $(CURDIR)/data/postgresql_volume
+	@sudo rm -rf $(CURDIR)/data/django_volume
+	@sudo rm -rf $(CURDIR)/data/frontend_volume
 
 prune:
 	@echo 'prune unused docker stuff to clear memory'
